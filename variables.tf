@@ -6,7 +6,7 @@ variable "region" {
 
 variable "bucket_name" {
   type    = string
-  default = ""
+  default = " "
 }
 
 variable "tags" {
