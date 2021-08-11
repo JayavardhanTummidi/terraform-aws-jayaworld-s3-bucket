@@ -10,6 +10,7 @@ variable "bucket_name" {
 }
 
 variable "tags" {
+  description = "please provide tags for S3 bucket"
   type    = map(string)
   default = {}
 }
