@@ -5,8 +5,8 @@ variable "region" {
 
 
 variable "bucket_name" {
+  description = "please provide bucket name"
   type    = string
-  default = " "
 }
 
 variable "tags" {
