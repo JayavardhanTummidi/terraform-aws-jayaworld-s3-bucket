@@ -6,11 +6,11 @@ variable "region" {
 
 variable "bucket_name" {
   description = "please provide bucket name"
-  type    = string
+  type        = string
 }
 
 variable "tags" {
   description = "please provide tags for S3 bucket"
-  type    = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
