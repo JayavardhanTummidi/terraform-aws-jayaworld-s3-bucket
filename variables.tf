@@ -9,6 +9,11 @@ variable "bucket_name" {
   type        = string
 }
 
+variable "acl" {
+  description = "choose who wants to access. options are private, public, public-read"
+  type = string
+}
+
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)

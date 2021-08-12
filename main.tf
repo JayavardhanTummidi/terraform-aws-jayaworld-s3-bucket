@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
-  acl    = "private" # available are public, public-read
+  acl    = var.acl
   tags   = merge(var.tags)
   # enable version control on objects
   versioning = {
