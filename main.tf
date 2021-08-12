@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   acl    = var.acl
   tags   = merge(var.tags)
   # enable version control on objects
-  versioning = {
+  versioning  {
     enabled = true
   }
   # Passing the KMS key to encrypt the data 
@@ -25,8 +25,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     rule {
       apply_server_side_encryption_by_defualt {
         kms_master_key_id = aws_kms_key.jaya-world-kms-s3.arn
-        sse_algorithm     = "aws::kms"
-        tags              = merge(var.tags)
+        sse_algorithm     = "aws:kms"
       }
     }
   }
