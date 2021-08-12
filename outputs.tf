@@ -14,7 +14,7 @@ output "key_id" {
   value       = aws_kms_key.jaya-world-kms-s3.key_id
 }
 
-output "arn" {
+output "kms_arn" {
   description = "KMS Key ARN"
   value       = aws_kms_key.jaya-world-kms-s3.arn
 }
