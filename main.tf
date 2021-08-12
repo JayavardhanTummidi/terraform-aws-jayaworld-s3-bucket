@@ -20,13 +20,4 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   versioning  {
     enabled = true
   }
-  # Passing the KMS key to encrypt the data 
-  server_side_encryption_configuration {
-    rule {
-        apply_server_side_encryption_by_defualt {
-          kms_master_key_id = aws_kms_key.jaya-world-kms-s3.kms_arn
-          sse_algorithm     = "aws:kms"
-      }
-    }
-  }
 }
