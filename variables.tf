@@ -3,7 +3,10 @@ variable "region" {
   default = "us-east-1"
 }
 
-
+variable "aws_kms_key_arn" {
+   description = "The customer managed(CMK) to encrypt the bucket"
+   type = string
+}
 variable "bucket_name" {
   description = "please provide bucket name"
   type        = string
