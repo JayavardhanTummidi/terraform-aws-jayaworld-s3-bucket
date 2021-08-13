@@ -1,8 +1,10 @@
 provider "aws" {
   region = var.region
 }
+# New resource for KMS Key creation
 resource "aws_kms_key" "jaya-world-kms" {
-  description = "reference from jaya-world-kms resource"
+  description = "for s3 buckets encryption"
+  deletion_window_in_days = "7"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
@@ -12,6 +14,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   versioning  {
     enabled = true
   }
+  # making server side encryption by default
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
