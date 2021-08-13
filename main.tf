@@ -12,7 +12,7 @@ resource "aws_kms_key" "jaya-world-kms-key" {
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket"
   acl = "log-delivery-write"
-  policy = file("s3-log-policy.json")
+  policy = "./s3-log-policy.json"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
