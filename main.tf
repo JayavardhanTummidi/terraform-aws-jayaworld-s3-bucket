@@ -2,16 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-# To encrypt the data, creating KMS key 
-resource "aws_kms_key" "jaya-world-kms-s3" {
-    description              = "kms key for s3"
-    key_usage                = "ENCRYPT_DECRYPT"
-    customer_master_key_spec = "SYMMETRIC_DEFAULT"
-    tags = {
-      resource = "s3"
-    }
-}
-
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
