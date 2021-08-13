@@ -4,7 +4,7 @@ variable "region" {
 }
 
 variable "aws_kms_key_arn" {
-   description = "The customer managed(CMK) to encrypt the bucket"
+   description = "The customer managed(CMK) to encrypt the bucket. Please create KMS Key if you haven't done already"
    type = string
 }
 variable "bucket_name" {
@@ -13,8 +13,14 @@ variable "bucket_name" {
 }
 
 variable "acl" {
-  description = "choose who wants to access. options are private, public, public-read"
+  description = "The canned ACL to apply. Valid values are private, public-read, public-read-write, aws-exec-read, authenticated-read, and log-delivery-write. Defaults to private. Conflicts with grant"
   type = string
+}
+
+variable "policy" {
+  description = "A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan"
+  type = string
+  default = ""
 }
 
 variable "tags" {
