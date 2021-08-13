@@ -2,7 +2,7 @@ provider "aws" {
   region = var.region
 }
 # New resource for KMS Key creation
-resource "aws_kms_key" "jaya-world-kms" {
+resource "aws_kms_key" "jaya-world-kms-key" {
   description = "for s3 buckets encryption"
   deletion_window_in_days = "7"
 }
@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.jaya-world-kms.arn
+        kms_master_key_id = aws_kms_key.jaya-world-kms-key.arn
         sse_algorithm = "aws:kms"
       }
     }
