@@ -8,6 +8,11 @@ resource "aws_kms_key" "jaya-world-kms-key" {
   deletion_window_in_days = "7"
   tags   = merge(var.tags)
 }
+# Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "jaya-world-log_bucket"
+  acl = "log-delivery-write"
+}
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
@@ -25,14 +30,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       }
     }
   }
-}
-# enable logging
-resource "aws_s3_bucket" "log_bucket" {
-  bucket = "jaya-world-log_bucket"
-  acl = "log-delivery-write"
-  
+  # enable logging 
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
     target_prefix = "log/"
   }
 }
+
+
