@@ -1,7 +1,9 @@
 provider "aws" {
   region = var.region
 }
-
+resource "aws_kms_key" "jaya-world-kms" {
+  description = "reference from jaya-world-kms resource"
+}
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
