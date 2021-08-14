@@ -12,18 +12,6 @@ resource "aws_kms_key" "jaya-world-kms-key" {
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
   acl = "private"
-  policy = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "*",
-            "Resource": "*"
-        }
-     ]
-   }
-  POLICY
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
