@@ -11,7 +11,7 @@ resource "aws_kms_key" "jaya-world-kms-key" {
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
-  acl = "private"
+  acl = "log-delivery-write,log-delivery-read_acp"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
