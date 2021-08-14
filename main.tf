@@ -3,10 +3,11 @@ provider "aws" {
 }
 
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
+/*
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
   acl = "log-delivery-write"
-}
+} */
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
@@ -25,10 +26,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
   # enable logging 
+  /*
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
     target_prefix = "log/"
-  }
+  } */
 }
 
 
