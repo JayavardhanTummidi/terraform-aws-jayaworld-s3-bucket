@@ -1,17 +1,11 @@
 provider "aws" {
   region = var.region
 }
-# New resource for KMS Key creation if you want it to be created by this module. if yes, change kms_master_key_id parameter below 
-# right now it's currently set to input the KMS key manually. 
-resource "aws_kms_key" "jaya-world-kms-key" {
-  description = "for s3 buckets encryption"
-  deletion_window_in_days = "7"
-  tags   = merge(var.tags)
-}
+
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
-  acl = "log-delivery-write,log-delivery-read_acp"
+  acl = "log-delivery-write"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
