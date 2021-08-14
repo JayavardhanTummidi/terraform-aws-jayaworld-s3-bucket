@@ -11,7 +11,7 @@ resource "aws_kms_key" "jaya-world-kms-key" {
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
-  acl = "log-delivery-write"
+  acl = "private"
   policy = <<POLICY
   {
     "Version": "2012-10-17",
