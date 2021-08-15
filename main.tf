@@ -3,26 +3,27 @@ provider "aws" {
 }
 
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
+/*
 resource "aws_s3_bucket" "log_bucket" {
   bucket = var.log_bucket
   acl = "log-delivery-write"
- }
+ } */
 
 # Manage public access settings for the S3 log bucket. 
-resource "aws_s3_bucket_public_access_block" "log_bucket" {
-  bucket = aws_s3_bucket.log_bucket.id
+resource "aws_s3_bucket_public_access_block" "jaya-world-s3" {
+  bucket = aws_s3_bucket.jaya-world-s3.id
 
   # S3 will block public access permissions applied to newly added buckets or objects, and prevent the creation of new public access ACLs for existing buckets and objects. This setting doesn’t change any existing permissions that allow public access to S3 resources using ACLs.
-  block_public_acls = true
+  block_public_acls = false
 
   # S3 will ignore all ACLs that grant public access to buckets and objects.
-  ignore_public_acls = true
+  ignore_public_acls = false
   
   # S3 will block new bucket and access point policies that grant public access to buckets and objects. This setting doesn't change any existing policies that allow public access to S3 resources
-  block_public_policy = true
+  block_public_policy = false
 
   # S3 will ignore public and cross-account access for buckets or access points with policies that grant public access to buckets and objects.
-  restrict_public_buckets = true
+  restrict_public_buckets = false
 
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
@@ -44,10 +45,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
   # enable logging 
+  /*
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
     target_prefix = "log/"
-  }
+  } */
 }
 
 
