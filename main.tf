@@ -5,7 +5,7 @@ provider "aws" {
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "jaya-world-log-bucket-hello"
-  acl = "log-delivery-write"
+  #acl = "log-delivery-write"
 }
 # Manage public access settings for the S3 log bucket. 
 resource "aws_s3_bucket_public_access_block" "log_bucket" {
@@ -43,10 +43,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
   # enable logging 
+  /*
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
     target_prefix = "log/"
-  }
+  } */
 }
 
 
