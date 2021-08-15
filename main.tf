@@ -3,7 +3,7 @@ provider "aws" {
 }
 resource "aws_s3_bucket" "jaya-world-s3-log" {
  bucket = var.log_bucket 
- acl = ""
+ acl = "log-delivery-write"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
