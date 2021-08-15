@@ -7,14 +7,14 @@ resource "aws_s3_bucket" "jaya-world-s3-log" {
  bucket = var.log_bucket 
  #acl = "log-delivery-write"
  grant {
-    id          = data.aws_canonical_user_id.current_user.id
+    id          = "${data.aws_canonical_user_id.current_user.id}"
     type        = "CanonicalUser"
     permissions = ["FULL_CONTROL"]
   }
 
   grant {
     type        = "Group"
-    permissions = ["READ_ACP", "WRITE"]
+    permissions = ["READ", "WRITE"]
     uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
   }
 }
