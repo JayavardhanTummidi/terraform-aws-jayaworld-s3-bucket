@@ -5,7 +5,6 @@ provider "aws" {
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = var.log_bucket
-  region = var.region
   acl = "log-delivery-write"
  }
 
@@ -28,7 +27,6 @@ resource "aws_s3_bucket_public_access_block" "log_bucket" {
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
-  region = var.region
   acl    = var.acl
   policy = var.policy
   tags   = merge(var.tags)
