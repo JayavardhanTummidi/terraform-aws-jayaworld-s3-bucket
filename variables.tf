@@ -17,6 +17,11 @@ variable "acl" {
   type = string
 }
 
+variable "log_bucket" {
+  description = "Random name for creating log bucket to enable logs"
+  type = string
+}
+
 variable "policy" {
   description = "A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan"
   type = string

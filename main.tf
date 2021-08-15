@@ -4,7 +4,7 @@ provider "aws" {
 
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = "log-bucket"
+  bucket = var.log_bucket
   grant {
     type        = "Group"
     permissions = ["READ_ACP", "WRITE"]
