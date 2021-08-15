@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "log_bucket" {
   acl = "log-delivery-write"
 }
 # Manage public access settings for the S3 log bucket. 
-resource "aws_s3_bucket_public_access_block" "public_access_block" {
+resource "aws_s3_bucket_public_access_block" "log_bucket" {
   bucket = aws_s3_bucket.log_bucket.id
 
   # S3 will block public access permissions applied to newly added buckets or objects, and prevent the creation of new public access ACLs for existing buckets and objects. This setting doesn’t change any existing permissions that allow public access to S3 resources using ACLs.
