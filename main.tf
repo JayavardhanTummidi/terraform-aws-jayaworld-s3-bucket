@@ -2,6 +2,11 @@ provider "aws" {
   region = var.region
 }
 
+# Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "jaya-world-log-bucket-hello"
+  acl = "log-delivery-write"
+}
 # Manage public access settings for the S3 log bucket. 
 resource "aws_s3_bucket_public_access_block" "public_access_block" {
   bucket = aws_s3_bucket.log_bucket.id
@@ -18,12 +23,6 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
   # S3 will ignore public and cross-account access for buckets or access points with policies that grant public access to buckets and objects.
   restrict_public_buckets = false
 
-}
-
-# Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
-resource "aws_s3_bucket" "log_bucket" {
-  bucket = "jaya-world-log-bucket-hello"
-  acl = "log-delivery-write"
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
