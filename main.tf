@@ -42,10 +42,10 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
   ignore_public_acls = false
   
   # S3 will block new bucket and access point policies that grant public access to buckets and objects. This setting doesn't change any existing policies that allow public access to S3 resources
-  block_public_policy = true
+  block_public_policy = false
 
   # S3 will ignore public and cross-account access for buckets or access points with policies that grant public access to buckets and objects.
-  restrict_public_buckets = true
+  restrict_public_buckets = false
 
 }
 
