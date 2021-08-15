@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket = var.log_bucket
   grant {
     type        = "Group"
-    permissions = ["READ_ACP", "WRITE"]
+    permissions = ["FULL_CONTROL"]
     uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
   }
  }
