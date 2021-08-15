@@ -1,9 +1,22 @@
 provider "aws" {
   region = var.region
 }
+data "aws_canonical_user_id" "current_user" {}
+
 resource "aws_s3_bucket" "jaya-world-s3-log" {
  bucket = var.log_bucket 
- acl = "log-delivery-write"
+ #acl = "log-delivery-write"
+ grant {
+    id          = data.aws_canonical_user_id.current_user.id
+    type        = "CanonicalUser"
+    permissions = ["FULL_CONTROL"]
+  }
+
+  grant {
+    type        = "Group"
+    permissions = ["READ_ACP", "WRITE"]
+    uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
+  }
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
