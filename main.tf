@@ -28,7 +28,7 @@ resource "aws_s3_bucket_public_access_block" "jaya-world-s3" {
 }
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
-  acl    = merge(var.acl)
+  acl    = var.acl
   policy = var.policy
   tags   = merge(var.tags)
   # enable version control on objects
