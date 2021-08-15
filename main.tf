@@ -5,11 +5,7 @@ provider "aws" {
 # Create a new bucket for logging and refer this resource in the original bucket creation to log the files. 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = var.log_bucket
-  grant {
-    type        = "Group"
-    permissions = ["FULL_CONTROL"]
-    uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
-  }
+  acl = "log-delivery-write"
  }
 
 # Manage public access settings for the S3 log bucket. 
