@@ -4,21 +4,23 @@ As mentioned above, this module is created with the organization best practises.
 
  > **PREREQUISITES**
  
- 1) Please use KMS key module "jayaworld-kms-key" [Duck Duck Go](https://registry.terraform.io) to create KMS Key. If you already have KMS key, you can avoid doing this. 
+ 1) Please use KMS key module "jayaworld-kms-key" [Terraform modules](https://registry.terraform.io/modules) to create KMS Key. If you already have KMS key, you can avoid doing this. 
   
   module "jayaworld-kms-key" {
 
   source  = "app.terraform.io/jaya-world/jayaworld-kms-key/aws"
-  # insert the variables
+  
+  **insert the variables**
 
   }
 
- 2) Please use S3 logs bucket module "jayaworld-s3-logs-bucket" [Duck Duck Go](https://registry.terraform.io) to create s3 logs bucket. If you already have s3 log bucket, you can avoid this. 
+ 2) Please use S3 logs bucket module "jayaworld-s3-logs-bucket" [Terraform modules](https://registry.terraform.io/modules) to create s3 logs bucket. If you already have s3 log bucket, you can avoid this. 
 
   module "jayaworld-s3-logs-bucket" {
 
   source  = "app.terraform.io/jaya-world/jayaworld-s3-logs-bucket/aws"
-  # insert the variables
+
+  **insert the variables**
 
   }
 
@@ -33,6 +35,7 @@ As mentioned above, this module is created with the organization best practises.
  module "jayaworld-s3-bucket" {
 
   source  = "app.terraform.io/jaya-world/jayaworld-s3-bucket/aws"
-  # insert required variables here
   
+  **insert required variables here**
+
  }
