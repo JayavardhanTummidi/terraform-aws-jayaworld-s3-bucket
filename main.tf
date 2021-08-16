@@ -23,7 +23,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   # enable server logging 
   logging {
     target_bucket = var.s3_logs_bucket_arn
-    target_prefix = "log/"
+    #target_prefix = "log/"
   }
 }
 # Manage public access settings for the S3 log bucket. 
