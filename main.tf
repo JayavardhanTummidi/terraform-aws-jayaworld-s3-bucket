@@ -4,8 +4,6 @@ provider "aws" {
 # Create a new bucket
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
-  access_key = var.AWS_ACCESS_KEY_ID
-  secret_key = var.AWS_SECRET_ACCESS_KE
   acl    = var.acl
   policy = var.policy
   tags   = merge(var.tags)

@@ -3,16 +3,6 @@ variable "region" {
   default = "us-east-1"
 }
 
-variable "AWS_ACCESS_KEY_ID" {
-  type = string
-  default = ""
-}
-
-variable "AWS_SECRET_ACCESS_KEY" {
-  type = string
-  default = ""
-}
-
 variable "aws_kms_key_arn" {
    description = "The customer managed(CMK) to encrypt the bucket. Please create KMS Key if you haven't done already"
    type = string
