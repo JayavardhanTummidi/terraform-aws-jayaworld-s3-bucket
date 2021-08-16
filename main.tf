@@ -1,6 +1,13 @@
 provider "aws" {
   region = var.region
 }
+# Create a new bucket server logging
+resource "aws_s3_bucket" "jaya_world_log_bucket" {
+   bucket = var.log_bucket_name
+   acl = "log-delivery-write"
+   policy = var.log_bucket_policy
+   tags = merge(var.tags)
+}
 # Create a new bucket
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
@@ -22,7 +29,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   }
   # enable server logging 
   logging {
-    target_bucket = var.s3_logs_bucket_id
+    target_bucket = aws_s3_bucket.jaya_world_log_bucket.id
     target_prefix = "log/"
   }
 # Lifecyle rule for logs for retention

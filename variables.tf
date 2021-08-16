@@ -2,7 +2,10 @@ variable "region" {
   type    = string
   default = "us-east-1"
 }
-
+variable "log_bucket_name" {
+  description = "please provide bucket name to create s3 log bucket"
+  type        = string
+}
 variable "aws_kms_key_arn" {
    description = "The customer managed(CMK) to encrypt the bucket. Please create KMS Key if you haven't done already"
    type = string
@@ -18,12 +21,13 @@ variable "acl" {
   default = "private"
 }
 
-variable "s3_logs_bucket_id" {
-  description = "S3 logs bucket id for enable server logging "
+variable "policy" {
+  description = "A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan"
   type = string
+  default = ""
 }
 
-variable "policy" {
+variable "log_bucket_policy" {
   description = "A valid bucket policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan"
   type = string
   default = ""
