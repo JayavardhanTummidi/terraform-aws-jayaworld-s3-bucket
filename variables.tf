@@ -18,8 +18,8 @@ variable "acl" {
   default = "private"
 }
 
-variable "s3_logs_bucket_arn" {
-  description = "S3 logs bucket ARN for enable server logging "
+variable "s3_logs_bucket_id" {
+  description = "S3 logs bucket id for enable server logging "
   type = string
 }
 
