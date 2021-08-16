@@ -1,11 +1,7 @@
 provider "aws" {
   region = var.region
 }
-
-resource "aws_s3_bucket" "jaya-world-s3-log" {
- bucket = var.log_bucket 
- acl = "log-delivery-write"
-}
+# Create a new bucket
 resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
@@ -24,10 +20,10 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       }
     }
   }
-  # enable logging 
+  # enable server logging 
   logging {
-    target_bucket = aws_s3_bucket.jaya-world-s3-log.id
-    target_prefix = "s3-log/"
+    target_bucket = var.s3_logs_bucket_arn
+    target_prefix = "s3-bucket-logs/"
   }
 }
 # Manage public access settings for the S3 log bucket. 

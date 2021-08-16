@@ -15,10 +15,11 @@ variable "bucket_name" {
 variable "acl" {
   description = "The canned ACL to apply. Valid values are private, public-read, public-read-write, aws-exec-read, authenticated-read, and log-delivery-write. Defaults to private. Conflicts with grant"
   type = string
+  default = "private"
 }
 
-variable "log_bucket" {
-  description = "Random name for creating log bucket to enable logs"
+variable "s3_logs_bucket_arn" {
+  description = "S3 logs bucket ARN for enable server logging "
   type = string
 }
 
