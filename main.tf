@@ -25,67 +25,74 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     target_bucket = var.s3_logs_bucket_id
     target_prefix = "log/"
   }
-}
-# Lifecyle rule for logs 
+# Lifecyle rule for logs for retention
   lifecycle_rule {
     id = "log"
     prefix = "log/"
-    enabled = "true"
+    enabled = true
     tags = {
      rule = "log"
      autoclean = "true"
     } 
+
     transition {
       days = 30
       storage_class = "STANDARD_IA"
     }
+
     transition {
       days = 60
       storage_class = "GLACIER"
     }
+
     expiration {
       days = 90
     }
   }
-# Lifecycle rule for non version objects
+  # Lifecycle rule for non version objects for retention
   lifecycle_rule {
     id = "noncurrent_version_transitioning"
-    enabled = "true"
+    enabled = true
     tags = {
       rule = "apply to all objects"
     }
+
     noncurrent_version_transitioning {
      days = 30
      storage_class = "STANDARD_IA"     
     }
+
     noncurrent_version_transitioning {
      days = 60
      storage_class = "GLACIER"
     }
+
     noncurrent_version_expiration {
      days = 90
     }
   }
-# Lifecycle rule for all the objects
+# Lifecycle rule for all the objects for retention
   lifecycle_rule {
     id = "apply to all the objects"
-    enabled = "true"
+    enabled = true
     tags = {
       apply = "all the objects"
     }
+
     transition {
       days = 30
       storage_class = "STANDARD_IA"
-    }    
+    }   
+
     transition {
       days = 60
       storage_class = "GLACIER"
     }
+
     expiration {
       days = 90
     }
   }
-
 }
 
 # Manage public access settings for the S3 log bucket. 
