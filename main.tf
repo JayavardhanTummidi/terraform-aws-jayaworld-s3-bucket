@@ -49,20 +49,20 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       days = 90
     }
   }
-  # Lifecycle rule for non version objects for retention
+  # Lifecycle rule for non version objects
   lifecycle_rule {
-    id = "noncurrent_version_transitioning"
+    id = "noncurrent_version_transition"
     enabled = true
     tags = {
       rule = "apply to all objects"
     }
 
-    noncurrent_version_transitioning {
+    noncurrent_version_transition {
      days = 30
      storage_class = "STANDARD_IA"     
     }
 
-    noncurrent_version_transitioning {
+    noncurrent_version_transition {
      days = 60
      storage_class = "GLACIER"
     }
