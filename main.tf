@@ -18,8 +18,8 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
       apply_server_side_encryption_by_default {
          kms_master_key_id = var.aws_kms_key_arn
          sse_algorithm = "aws:kms"
-         bucket_key_enabled = "Enabled"
       }
+      bucket_key_enabled = "true"
     }
   }
   # Lifecyle rule for logs for retention
@@ -65,8 +65,8 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       apply_server_side_encryption_by_default {
          kms_master_key_id = var.aws_kms_key_arn
          sse_algorithm = "aws:kms"
-         bucket_key_enabled = "Enabled"
       }
+      bucket_key_enabled = "true"
     }
   }
   # Uncomment only if it's required for object lock enablement
