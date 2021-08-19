@@ -6,6 +6,7 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
    bucket = var.log_bucket_name
    acl = "log-delivery-write"
    policy = var.log_bucket_policy
+   force_destroy = var.log_bucket_force_destroy
    tags = merge(var.tags)
    # enable version control on objects
    versioning  {
@@ -51,6 +52,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   bucket = var.bucket_name
   acl    = var.acl
   policy = var.policy
+  force_destroy = var.force_destroy
   tags   = merge(var.tags)
   # enable version control on objects
   versioning  {
@@ -64,6 +66,10 @@ resource "aws_s3_bucket" "jaya-world-s3" {
          sse_algorithm = "aws:kms"
       }
     }
+  }
+  # object lock configuration 
+  object_lock_configuration {
+    object_lock_enabled = var.object_lock_enabled
   }
   # enable server logging 
   logging {

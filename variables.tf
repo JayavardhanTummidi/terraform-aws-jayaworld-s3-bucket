@@ -33,6 +33,23 @@ variable "log_bucket_policy" {
   default = ""
 }
 
+variable "force_destroy" {
+  description = "Whether to allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled."
+  type = string
+  default = "false"
+}
+
+variable "log_bucket_force_destroy" {
+  description = "Whether to allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled."
+  type = string
+  default = "false" 
+}
+variable "object_lock_enabled" {
+  description = "Store objects using a write-once-read-many (WORM) model to help you prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely."
+  type = string
+  default = "false"
+}
+
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)
