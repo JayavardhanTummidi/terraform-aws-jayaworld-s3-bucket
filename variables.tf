@@ -47,7 +47,7 @@ variable "log_bucket_force_destroy" {
 variable "object_lock_enabled" {
   description = "Store objects using a write-once-read-many (WORM) model to help you prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely."
   type = string
-  default = "Disabled"
+  default = ""
 }
 
 variable "tags" {
