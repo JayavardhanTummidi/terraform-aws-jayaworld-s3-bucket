@@ -70,30 +70,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     target_bucket = aws_s3_bucket.jaya_world_log_bucket.id
     target_prefix = "log/"
   }
-# Lifecyle rule for logs for retention
-  lifecycle_rule {
-    id = "log"
-    prefix = "log/"
-    enabled = true
-    tags = {
-     rule = "log"
-     autoclean = "true"
-    } 
-
-    transition {
-      days = 30
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days = 60
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = 90
-    }
-  }
   # Lifecycle rule for non version objects
   lifecycle_rule {
     id = "noncurrent_version_transition"
@@ -116,28 +92,26 @@ resource "aws_s3_bucket" "jaya-world-s3" {
      days = 90
     }
   }
-# Lifecycle rule for all the objects for retention
+# Lifecycle rule for all the objects for incomplete multipart uploads
+/*
   lifecycle_rule {
-    id = "apply to all the objects"
-    enabled = true
-    tags = {
-      apply = "all the objects"
-    }
-
-    transition {
-      days = 30
-      storage_class = "STANDARD_IA"
-    }   
-
-    transition {
-      days = 60
-      storage_class = "GLACIER"
-    }
-
+    id = "incomplete multipart uploads"
+    enabled = "true"
     expiration {
-      days = 90
+      abort_incomplete_multipart_upload {
+      days_after_initiation = "7" 
+      }
+    }
+  } */
+# Lifecycle rule for all the objects for expired delete markers
+  lifecycle_rule {
+    id = "expired delete markers"
+    enabled = "true"
+    expiration {
+      expired_object_delete_marker = "true"
     }
   }
+    
 }
 
 # Manage public access settings for the S3 log bucket. 
