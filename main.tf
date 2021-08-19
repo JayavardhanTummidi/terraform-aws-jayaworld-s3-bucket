@@ -18,6 +18,7 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
       apply_server_side_encryption_by_default {
          kms_master_key_id = var.aws_kms_key_arn
          sse_algorithm = "aws:kms"
+         bucket_key_enabled = "Enabled"
       }
     }
   }
@@ -64,6 +65,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       apply_server_side_encryption_by_default {
          kms_master_key_id = var.aws_kms_key_arn
          sse_algorithm = "aws:kms"
+         bucket_key_enabled = "Enabled"
       }
     }
   }
@@ -72,6 +74,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   object_lock_configuration {
     object_lock_enabled = "Enabled"
   } */
+
   # enable server logging 
   logging {
     target_bucket = aws_s3_bucket.jaya_world_log_bucket.id
