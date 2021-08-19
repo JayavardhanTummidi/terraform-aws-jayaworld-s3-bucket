@@ -67,10 +67,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       }
     }
   }
-  # object lock configuration 
+  # Uncomment only if it's required for object lock enablement
+  /*
   object_lock_configuration {
-    object_lock_enabled = var.object_lock_enabled
-  }
+    object_lock_enabled = "Enabled"
+  } */
   # enable server logging 
   logging {
     target_bucket = aws_s3_bucket.jaya_world_log_bucket.id
