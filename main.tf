@@ -92,26 +92,16 @@ resource "aws_s3_bucket" "jaya-world-s3" {
      days = 90
     }
   }
-# Lifecycle rule for all the objects for incomplete multipart uploads
-/*
+# Lifecycle rule for all the objects for expired delete markers and incomplete multipart uploads 
   lifecycle_rule {
-    id = "incomplete multipart uploads"
+    id = "Incomplete uploads and abort multipart"
     enabled = "true"
-    expiration {
-      abort_incomplete_multipart_upload {
-      days_after_initiation = "7" 
-      }
-    }
-  } */
-# Lifecycle rule for all the objects for expired delete markers
-  lifecycle_rule {
-    id = "expired delete markers"
-    enabled = "true"
+    abort_incomplete_multipart_upload_days = 7
     expiration {
       expired_object_delete_marker = "true"
     }
   }
-    
+
 }
 
 # Manage public access settings for the S3 log bucket. 
