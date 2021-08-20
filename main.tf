@@ -93,9 +93,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   lifecycle_rule {
     id = "Rule_for_previous_versions"
     enabled = "true"
-    expiration {
-      days = var.previous_version_expiration_days
-    }
 
     dynamic "noncurrent_version_transition" {
       for_each = var.noncurrent_version_transitions
@@ -104,8 +101,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
         days = noncurrent_version_transition.value.days
         storage_class = noncurrent_version_transition.value.storage_class
       }
-       
     }
+    noncurrent_version_expiration {
+       days = var.previous_version_expiration_days
+    }
+       
   }
   # Dynamic lifecycle rule for current versions with the filter option
   lifecycle_rule {
