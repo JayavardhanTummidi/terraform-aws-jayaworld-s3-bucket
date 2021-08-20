@@ -69,6 +69,12 @@ variable "expiration_days" {
   default = "90"
 }
 
+variable "previous_version_expiration_days" {
+  description = "Specifies the number of days after object becomes non-current"
+  type = number
+  default = "90"
+}
+
 variable "noncurrent_version_transitions" {
   description = "Specifies the number of days noncurrent object versions transition and Specifies the Amazon S3 storage class to which you want the noncurrent object versions to transition. Can be ONEZONE_IA, STANDARD_IA, INTELLIGENT_TIERING, GLACIER, or DEEP_ARCHIVE."
   type = list
@@ -94,19 +100,13 @@ variable "transitions" {
 variable "lifecycle_rule_id" {
   description = "Unique identifier for the lifecycle rule. Must be less than or equal to 255 characters in length."
   type = string
-  default = ""
+  default = "Rule_for_current_versions"
 }
 
 variable "lifecycle_rule_prefix" {
   description = "Object key prefix identifying one or more objects to which the rule applies."
   type = string
   default = ""
-}
-
-variable "lifecycle_rule_tags" {
-  description = "Specifies object tags key and value"
-  type = map(string)
-  default = {}
 }
 
 variable "tags" {

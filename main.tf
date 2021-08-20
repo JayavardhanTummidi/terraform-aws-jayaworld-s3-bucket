@@ -79,16 +79,22 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     target_prefix = "log/"
   }
 
-  # Dynamic Lifecycle rule for all
+  # Dynamic Lifecycle rule for incomplete multipart upload objects and expired object delete markers.
   lifecycle_rule {
-    id = var.lifecycle_rule_id
-    prefix = var.lifecycle_rule_prefix
-    tags = var.lifecycle_rule_tags
+    id = "Abort_multipart_and_expired_object_delete_marker"
     enabled = "true"
     abort_incomplete_multipart_upload_days = var.abort_incomplete_multipart_upload_days
     expiration {
-      days = var.expiration_days
       expired_object_delete_marker = "true"
+    }
+  }
+
+  # Dynamic lifecycle rule for noncurrent version transition. previous version. 
+  lifecycle_rule {
+    id = "Rule_for_previous_versions"
+    enabled = "true"
+    expiration {
+      days = var.previous_version_expiration_days
     }
 
     dynamic "noncurrent_version_transition" {
@@ -99,6 +105,15 @@ resource "aws_s3_bucket" "jaya-world-s3" {
         storage_class = noncurrent_version_transition.value.storage_class
       }
        
+    }
+  }
+  # Dynamic lifecycle rule for current versions with the filter option
+  lifecycle_rule {
+    id = var.lifecycle_rule_id
+    prefix = var.lifecycle_rule_prefix
+    enabled = "true"
+    expiration {
+      days = var.expiration_days
     }
 
     dynamic "transition" {
