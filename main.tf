@@ -22,7 +22,8 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
       bucket_key_enabled = "true"
     }
   }
-  # Lifecyle rule for logs for retention
+
+  # Lifecyle rule for logs
   lifecycle_rule {
     id = "log"
     prefix = "log/"
@@ -54,6 +55,8 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   acl    = var.acl
   policy = var.policy
   force_destroy = var.force_destroy
+  acceleration_status = var.acceleration_status
+  request_payer = var.request_payer
   tags   = merge(var.tags)
   # enable version control on objects
   versioning  {
@@ -69,49 +72,45 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       bucket_key_enabled = "true"
     }
   }
-  # Uncomment only if it's required for object lock enablement
-  /*
-  object_lock_configuration {
-    object_lock_enabled = "Enabled"
-  } */
 
   # enable server logging 
   logging {
     target_bucket = aws_s3_bucket.jaya_world_log_bucket.id
     target_prefix = "log/"
   }
-  # Lifecycle rule for non version objects
+
+  # Dynamic Lifecycle rule for all
   lifecycle_rule {
-    id = "noncurrent_version_transition"
-    enabled = true
-    tags = {
-      rule = "apply to all objects"
-    }
-
-    noncurrent_version_transition {
-     days = 30
-     storage_class = "STANDARD_IA"     
-    }
-
-    noncurrent_version_transition {
-     days = 60
-     storage_class = "GLACIER"
-    }
-
-    noncurrent_version_expiration {
-     days = 90
-    }
-  }
-# Lifecycle rule for all the objects for expired delete markers and incomplete multipart uploads 
-  lifecycle_rule {
-    id = "Incomplete uploads and abort multipart"
+    id = var.lifecycle_rule_id
+    prefix = var.lifecycle_rule_prefix
+    tags = var.lifecycle_rule_tags
     enabled = "true"
-    abort_incomplete_multipart_upload_days = 7
+    abort_incomplete_multipart_upload_days = var.abort_incomplete_multipart_upload_days
     expiration {
+      days = var.expiration_days
       expired_object_delete_marker = "true"
     }
-  }
 
+    dynamic "noncurrent_version_transition" {
+      for_each = var.noncurrent_version_transitions
+
+      content {
+        days = noncurrent_version_transition.value.days
+        storage_class = noncurrent_version_transition.value.storage_class
+      }
+       
+    }
+
+    dynamic "transition" {
+      for_each = var.transitions
+
+      content {
+        days = transition.value.days
+        storage_class = transition.value.storage_class
+      }
+    }
+
+  }
 }
 
 # Manage public access settings for the S3 log bucket. 

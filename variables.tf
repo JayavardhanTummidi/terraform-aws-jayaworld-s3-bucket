@@ -35,14 +35,78 @@ variable "log_bucket_policy" {
 
 variable "force_destroy" {
   description = "Whether to allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled."
-  type = string
+  type = bool
   default = "false"
 }
 
 variable "log_bucket_force_destroy" {
   description = "Whether to allow the object to be deleted by removing any legal hold on any object version. Default is false. This value should be set to true only if the bucket has S3 object lock enabled."
-  type = string
+  type = bool
   default = "false" 
+}
+
+variable "acceleration_status" {
+  description = "Transfer Acceleration takes advantage of the globally distributed edge locations in Amazon CloudFront. As the data arrives at an edge location, the data is routed to Amazon S3 over an optimized network path."
+  type = string
+  default = "Suspended"
+}
+
+variable "request_payer" {
+  description = "Specifies who should bear the cost of Amazon S3 data transfer. Can be either BucketOwner or Requester. By default, the owner of the S3 bucket would incur the costs of any data transfer. "
+  type = string
+  default = "BucketOwner"
+}
+
+variable "abort_incomplete_multipart_upload_days" {
+  description = "Specifies the number of days after initiating a multipart upload when the multipart upload must be completed."
+  type = number
+  default = 7
+}
+
+variable "expiration_days" {
+  description = "Specifies the number of days after object creation when the specific rule action takes effect"
+  type = number
+  default = "90"
+}
+
+variable "noncurrent_version_transitions" {
+  description = "Specifies the number of days noncurrent object versions transition and Specifies the Amazon S3 storage class to which you want the noncurrent object versions to transition. Can be ONEZONE_IA, STANDARD_IA, INTELLIGENT_TIERING, GLACIER, or DEEP_ARCHIVE."
+  type = list
+  default = [
+    { 
+     days= "30"
+     storage_class = "STANDARD_IA"
+   }
+  ]
+}
+
+variable "transitions" {
+  description = "Specifies the number of days after object creation when the specific rule action takes effect and Specifies the Amazon S3 storage class to which you want the object to transition. Can be ONEZONE_IA, STANDARD_IA, INTELLIGENT_TIERING, GLACIER, or DEEP_ARCHIVE."
+  type = list
+  default = [
+    {
+      days = "30"
+      storage_class = "STANDARD_IA"
+    }
+  ]
+}
+
+variable "lifecycle_rule_id" {
+  description = "Unique identifier for the lifecycle rule. Must be less than or equal to 255 characters in length."
+  type = string
+  default = ""
+}
+
+variable "lifecycle_rule_prefix" {
+  description = "Object key prefix identifying one or more objects to which the rule applies."
+  type = string
+  default = ""
+}
+
+variable "lifecycle_rule_tags" {
+  description = "Specifies object tags key and value"
+  type = map(string)
+  default = {}
 }
 
 variable "tags" {
