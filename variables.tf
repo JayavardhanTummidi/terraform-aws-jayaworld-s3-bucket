@@ -48,7 +48,7 @@ variable "log_bucket_force_destroy" {
 variable "acceleration_status" {
   description = "Transfer Acceleration takes advantage of the globally distributed edge locations in Amazon CloudFront. As the data arrives at an edge location, the data is routed to Amazon S3 over an optimized network path."
   type = string
-  default = "Suspended"
+  default = ""
 }
 
 variable "request_payer" {
