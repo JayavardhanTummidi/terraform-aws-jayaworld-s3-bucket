@@ -78,9 +78,9 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     for_each = var.website_rules
 
     content {
-    index_document = lookup(website.value, "index_document", null)
-    error_document = lookup(website.value, "error_document", null)
-    redirect_all_requests_to = lookup(website.value, "redirect_all_requests_to", null)
+    index_document = website.value.index_document
+    error_document = website.value.error_document
+    redirect_all_requests_to = website.value.redirect_all_requests_to
     }
   }
 

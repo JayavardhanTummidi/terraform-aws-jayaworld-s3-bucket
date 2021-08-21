@@ -111,8 +111,8 @@ variable "lifecycle_rule_prefix" {
 
 variable "website_rules" {
   description = "provide following optional inputs - 'index_document', 'error_document' and 'redirect_all_requests_to' to enable statis website"
-  type = map(string) 
-  default = {}
+  type = list 
+  default = []
 }
 
 variable "tags" {
