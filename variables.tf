@@ -64,9 +64,9 @@ variable "abort_incomplete_multipart_upload_days" {
 }
 
 variable "expiration_days" {
-  description = "Specifies the number of days after object creation when the specific rule action takes effect"
+  description = "Specifies the number of days after object creation when the specific rule action takes effect. This is for current version"
   type = number
-  default = "90"
+  default = "365"
 }
 
 variable "previous_version_expiration_days" {
@@ -107,6 +107,12 @@ variable "lifecycle_rule_prefix" {
   description = "Object key prefix identifying one or more objects to which the rule applies."
   type = string
   default = ""
+}
+
+variable "website_rules" {
+  description = "provide following optional inputs - 'index_document', 'error_document' and 'redirect_all_requests_to' to enable statis website"
+  type = map(string) 
+  default = {}
 }
 
 variable "tags" {

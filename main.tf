@@ -72,6 +72,17 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       bucket_key_enabled = "true"
     }
   }
+  
+  # static website hosting
+  dynamic "website" {
+    for_each = var.website_rules
+
+    content {
+    index_document = lookup(website.value, "index_document", null)
+    error_document = lookup(website.value, "error_document", null)
+    redirect_all_requests_to = lookup(website.value, "redirect_all_requests_to", null)
+    }
+  }
 
   # enable server logging 
   logging {
