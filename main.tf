@@ -55,7 +55,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   acl    = var.acl
   policy = var.policy
   force_destroy = var.force_destroy
-  acceleration_status = var.acceleration_status
   request_payer = var.request_payer
   tags   = merge(var.tags)
   # enable version control on objects
