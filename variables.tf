@@ -91,7 +91,7 @@ variable "transitions" {
   type = list
   default = [
     {
-      days = "30"
+      days = "365"
       storage_class = "STANDARD_IA"
     }
   ]
@@ -112,7 +112,13 @@ variable "lifecycle_rule_prefix" {
 variable "website_rules" {
   description = "provide following optional inputs - 'index_document', 'error_document' and 'redirect_all_requests_to' to enable statis website"
   type = list 
-  default = []
+  default = [
+    {
+      index_document = "index.html"
+      error_document = "error.html"
+      redirect_all_requests_to = null
+    }
+  ]
 }
 
 variable "block_public_acls" {
