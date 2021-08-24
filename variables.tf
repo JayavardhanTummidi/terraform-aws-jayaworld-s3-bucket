@@ -115,6 +115,30 @@ variable "website_rules" {
   default = []
 }
 
+variable "block_public_acls" {
+  description = "S3 will block public access permissions applied to newly added buckets or objects, and prevent the creation of new public access ACLs for existing buckets and objects. This setting doesn’t change any existing permissions that allow public access to S3 resources using ACLs"
+  type = string
+  default = "true"
+}
+
+variable "ignore_public_acls" {
+  description = "S3 will ignore all ACLs that grant public access to buckets and objects."
+  type = string
+  default = "true"
+}
+
+variable "block_public_policy" {
+  description = "S3 will block new bucket and access point policies that grant public access to buckets and objects. This setting doesn't change any existing policies that allow public access to S3 resources"
+  type = string
+  default = "true"
+}
+
+variable "restrict_public_buckets" {
+  description = "S3 will ignore public and cross-account access for buckets or access points with policies that grant public access to buckets and objects."
+  type = string
+  default = "true"
+}
+
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)

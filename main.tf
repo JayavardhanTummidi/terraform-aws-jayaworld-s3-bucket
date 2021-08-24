@@ -143,16 +143,16 @@ resource "aws_s3_bucket_public_access_block" "jaya-world-s3" {
   bucket = aws_s3_bucket.jaya-world-s3.id
 
   # S3 will block public access permissions applied to newly added buckets or objects, and prevent the creation of new public access ACLs for existing buckets and objects. This setting doesn’t change any existing permissions that allow public access to S3 resources using ACLs.
-  block_public_acls = true
+  block_public_acls = var.block_public_acls
 
   # S3 will ignore all ACLs that grant public access to buckets and objects.
-  ignore_public_acls = true
+  ignore_public_acls = var.ignore_public_acls
   
   # S3 will block new bucket and access point policies that grant public access to buckets and objects. This setting doesn't change any existing policies that allow public access to S3 resources
-  block_public_policy = true
+  block_public_policy = var.block_public_policy
 
   # S3 will ignore public and cross-account access for buckets or access points with policies that grant public access to buckets and objects.
-  restrict_public_buckets = true
+  restrict_public_buckets = var.restrict_public_buckets
 
 }
 resource "aws_s3_bucket_public_access_block" "jaya_world_log_bucket" {
