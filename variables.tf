@@ -139,12 +139,25 @@ variable "restrict_public_buckets" {
   default     = "true"
 }
 
+/*
 variable "replication_configuration" {
   description = "Specifies the replication configuration"
   type        = any
   default     = {}
 }
+*/
 
+variable "replica_role" {
+  description = "Provide replication iam role arn"
+  type = string
+  default = ""
+}
+
+variable "rules" {
+  description = "Provide replication rules for status and destination and other arguments. "
+  type = any
+  default = {}
+}
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)
