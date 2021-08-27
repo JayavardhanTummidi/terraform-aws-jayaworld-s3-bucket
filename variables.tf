@@ -141,7 +141,7 @@ variable "restrict_public_buckets" {
 
 variable "replication_configuration" {
   description = "Specifies the replication configuration"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
