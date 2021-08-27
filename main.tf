@@ -140,7 +140,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   # For replication configuration
 
   dynamic "replication_configuration" {
-    for_each = var.replication_configuration
+    for_each = length(keys(var.replication_configuration)) == 0 ? [] : [var.replication_configuration]
 
     content {
       role = replication_configuration.value.role
@@ -156,7 +156,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
           prefix                           = lookup(rules.value, "prefix", null)
 
           dynamic "destination" {
-            for_each = lookup(rules.value, "destination", null)
+            for_each = length(keys(lookup(rules.value, "destination", {}))) == 0 ? [] : [lookup(rules.value, "destination", {})]
 
             content {
               bucket             = destination.value.bucket
