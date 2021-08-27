@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../../../aws-terraform"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

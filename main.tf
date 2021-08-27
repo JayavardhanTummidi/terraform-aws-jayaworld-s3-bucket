@@ -141,30 +141,14 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   # For replication configuration
   replication_configuration {
     role = var.replica_role
-    dynamic "rules" {
-      for_each = var.rules
-      content {
-        status = rules.value.status
-        dynamic "destination" {
-          for_each = lookup(rules.value, "destination", null)
-          content {
-            bucket = destination.value.bucket
-          }
-        }
+    rules {
+      status = "Enabled"
+      destination {
+        bucket = var.replica_bucket
       }
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
 /*
   dynamic "replication_configuration" {
     for_each = var.replication_configuration

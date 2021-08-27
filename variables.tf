@@ -149,14 +149,20 @@ variable "replication_configuration" {
 
 variable "replica_role" {
   description = "Provide replication iam role arn"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
+}
+
+variable "replica_bucket" {
+  description = "Provide replication iam role arn"
+  type        = string
+  default     = ""
 }
 
 variable "rules" {
   description = "Provide replication rules for status and destination and other arguments. "
-  type = any
-  default = {}
+  type        = any
+  default     = {}
 }
 variable "tags" {
   description = "please provide tags for S3 bucket"
