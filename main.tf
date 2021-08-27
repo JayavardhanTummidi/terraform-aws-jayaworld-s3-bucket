@@ -139,7 +139,41 @@ resource "aws_s3_bucket" "jaya-world-s3" {
 
   }
   # For replication configuration
+  dynamic "replication_configuration" {
+    for_each = var.replication_configuration
 
+    content {
+      role = replication_configuration.value.role
+
+      dynamic "rules" {
+        for_each = replication_configuration.value.rules
+
+        content {
+          status = rules.value.status
+
+          dynamic "destination" {
+            for_each = rules.value.destination
+
+            content {
+              bucket = destination.value.bucket
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/*
   dynamic "replication_configuration" {
     for_each = var.replication_configuration
 
@@ -208,7 +242,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
 }
-
+*/
 
 
 
