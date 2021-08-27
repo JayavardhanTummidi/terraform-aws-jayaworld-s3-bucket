@@ -139,7 +139,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
 
   }
   # For replication configuration
-
+  
   dynamic "replication_configuration" {
     for_each = length(keys(var.replication_configuration)) == 0 ? [] : [var.replication_configuration]
 
@@ -150,11 +150,10 @@ resource "aws_s3_bucket" "jaya-world-s3" {
         for_each = replication_configuration.value.rules
 
         content {
-          delete_marker_replication_status = lookup(rules.value, "delete_marker_replication_status", null)
-          priority                         = lookup(rules.value, "priority", null)
-          status                           = rules.value.status
-          id                               = lookup(rules.value, "id", null)
-          prefix                           = lookup(rules.value, "prefix", null)
+          id       = lookup(rules.value, "id", null)
+          priority = lookup(rules.value, "priority", null)
+          prefix   = lookup(rules.value, "prefix", null)
+          status   = rules.value.status
 
           dynamic "destination" {
             for_each = length(keys(lookup(rules.value, "destination", {}))) == 0 ? [] : [lookup(rules.value, "destination", {})]
@@ -166,18 +165,41 @@ resource "aws_s3_bucket" "jaya-world-s3" {
               account_id         = lookup(destination.value, "account_id", null)
 
               dynamic "access_control_translation" {
-                for_each = lookup(destination.value, "access_control_translation", null)
+                for_each = length(keys(lookup(destination.value, "access_control_translation", {}))) == 0 ? [] : [lookup(destination.value, "access_control_translation", {})]
 
                 content {
                   owner = access_control_translation.value.owner
                 }
-
               }
             }
           }
 
+          dynamic "source_selection_criteria" {
+            for_each = length(keys(lookup(rules.value, "source_selection_criteria", {}))) == 0 ? [] : [lookup(rules.value, "source_selection_criteria", {})]
+
+            content {
+
+              dynamic "sse_kms_encrypted_objects" {
+                for_each = length(keys(lookup(source_selection_criteria.value, "sse_kms_encrypted_objects", {}))) == 0 ? [] : [lookup(source_selection_criteria.value, "sse_kms_encrypted_objects", {})]
+
+                content {
+
+                  enabled = sse_kms_encrypted_objects.value.enabled
+                }
+              }
+            }
+          }
+
+          # Send empty map if `filter` is an empty map or absent entirely
           dynamic "filter" {
-            for_each = lookup(rules.value, "filter", null)
+            for_each = length(keys(lookup(rules.value, "filter", {}))) == 0 ? [{}] : []
+
+            content {}
+          }
+
+          # Send `filter` if it is present and has at least one field
+          dynamic "filter" {
+            for_each = length(keys(lookup(rules.value, "filter", {}))) != 0 ? [lookup(rules.value, "filter", {})] : []
 
             content {
               prefix = lookup(filter.value, "prefix", null)
@@ -185,24 +207,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
             }
           }
 
-          dynamic "source_selection_criteria" {
-            for_each = lookup(rules.value, "source_selection_criteria", null)
-
-            content {
-
-              dynamic "sse_kms_encrypted_objects" {
-                for_each = lookup(source_selection_criteria.value, "sse_kms_encrypted_objects", null)
-
-                content {
-
-                  enabled = lookup(sse_kms_encrypted_objects.value, "enabled", null)
-
-                }
-
-              }
-
-            }
-          }
         }
       }
     }
