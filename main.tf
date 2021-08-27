@@ -143,19 +143,19 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     for_each = var.replication_configuration
 
     content {
-      role = replication_configuration.value.role
+      role = lookup(replication_configuration.value, "role", null)
 
       dynamic "rules" {
-        for_each = replication_configuration.value.rules
+        for_each = lookup(replication_configuration.value, "rules", null)
 
         content {
-          status = rules.value.status
+          status = lookup(rules.value, "status", null)
 
           dynamic "destination" {
-            for_each = rules.value.destination
+            for_each = lookup(rules.value, "destination", null)
 
             content {
-              bucket = destination.value.bucket
+              bucket = lookup(destination.value, "bucket", null)
             }
           }
         }
