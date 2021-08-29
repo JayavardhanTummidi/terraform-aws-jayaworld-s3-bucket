@@ -139,17 +139,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
 
   }
   # For replication configuration
-  replication_configuration {
-    role = var.replica_role
-    rules {
-      status = "Enabled"
-      destination {
-        bucket = var.replica_bucket
-      }
-    }
-  }
-}
-/*
   dynamic "replication_configuration" {
     for_each = var.replication_configuration
 
@@ -218,10 +207,6 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
 }
-*/
-
-
-
 
 # Manage public access settings for the S3 log bucket. 
 resource "aws_s3_bucket_public_access_block" "jaya-world-s3" {

@@ -139,13 +139,13 @@ variable "restrict_public_buckets" {
   default     = "true"
 }
 
-/*
+
 variable "replication_configuration" {
   description = "Specifies the replication configuration"
   type        = any
-  default     = {}
+  default     = []
 }
-*/
+
 
 variable "replica_role" {
   description = "Provide replication iam role arn"
