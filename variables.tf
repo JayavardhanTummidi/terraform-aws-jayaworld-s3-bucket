@@ -140,30 +140,48 @@ variable "restrict_public_buckets" {
 }
 
 
-variable "replication_configuration" {
-  description = "Specifies the replication configuration"
-  type        = any
-  default     = []
+variable "s3_replication_enabled" {
+  type        = bool
+  default     = false
+  description = "Set this to true and specify `s3_replica_bucket_arn` to enable replication. `versioning_enabled` must also be `true`."
 }
 
-
-variable "replica_role" {
-  description = "Provide replication iam role arn"
+variable "s3_replica_bucket_arn" {
   type        = string
   default     = ""
+  description = "The ARN of the S3 replica bucket (destination)"
 }
 
-variable "replica_bucket" {
-  description = "Provide replication iam role arn"
-  type        = string
-  default     = ""
+variable "replication_rules" {
+  # type = list(object({
+  #   id          = string
+  #   priority    = number
+  #   prefix      = string
+  #   status      = string
+  #   destination = object({
+  #     storage_class              = string
+  #     replica_kms_key_id         = string
+  #     access_control_translation = object({
+  #       owner = string
+  #     })
+  #     account_id                 = string
+  #   })
+  #   source_selection_criteria = object({
+  #     sse_kms_encrypted_objects = object({
+  #       enabled = bool
+  #     })
+  #   })
+  #   filter = object({
+  #     prefix = string
+  #     tags = map(string)
+  #   })
+  # }))
+
+  type        = list(any)
+  default     = null
+  description = "Specifies the replication rules if S3 bucket replication is enabled"
 }
 
-variable "rules" {
-  description = "Provide replication rules for status and destination and other arguments. "
-  type        = any
-  default     = {}
-}
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)
