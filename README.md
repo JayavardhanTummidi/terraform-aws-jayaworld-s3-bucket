@@ -23,11 +23,19 @@ module "jayaworld-s3-bucket" {
 
   bucket_name     = "jaya-world.com"
 
-  sse_algorithm_type = [
+  server_side_encryption_configuration = [
 
     {
 
-      sse_algorithm = "AES256"
+      rule = {
+
+        apply_server_side_encryption_by_default = {
+
+          sse_algorithm = "AES256"
+
+        }
+
+      }
 
     }
 
@@ -45,19 +53,27 @@ module "jayaworld-s3-bucket" {
 
   bucket_name     = "jaya-world.com"
 
-  sse_algorithm_type = [
-    
+  server_side_encryption_configuration = [
+
     {
 
-      sse_algorithm = "aws:kms"
+      rule = {
 
-      kms_master_key_id = "ARN of the KMS key" # Use jayaworld-kms-key module from terraform registry modules to create KMS key
+        bucket_key_enabled = "true"
+        
+        apply_server_side_encryption_by_default = {
+
+          sse_algorithm = "aws:kms"
+
+          kms_master_key_id = "kms key arn"  # Use jayaworld-kms-key module from terraform registry modules to create kms key
+
+        }
+
+      }
 
     }
-
+    
   ]
-
-  bucket_key_enabled = "Enabled"
 
 }
 
