@@ -143,16 +143,10 @@ variable "replication_configuration" {
   description = "specifies the replication rule for S3"
 }
 
-variable "sse_algorithm_type" {
+variable "server_side_encryption_configuration" {
   type        = list(any)
   default     = []
   description = "specifies the server side encryption algorithm AES256 or aws:kms"
-}
-
-variable "bucket_key_enabled" {
-  description = "Whether or not to use Amazon S3 Bucket Keys for SSE-KMS"
-  type        = string
-  default     = null
 }
 
 variable "cors_inputs" {

@@ -13,15 +13,26 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
     enabled = true
   }
   # making server side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      bucket_key_enabled = var.bucket_key_enabled
-      dynamic "apply_server_side_encryption_by_default" {
-        for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
+  dynamic "server_side_encryption_configuration" {
+    for_each = var.server_side_encryption_configuration == null ? [] : var.server_side_encryption_configuration
+
+    content {
+
+      dynamic "rule" {
+        for_each = try(server_side_encryption_configuration.value.rule, null) == null ? [] : [server_side_encryption_configuration.value.rule]
 
         content {
-          sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
-          kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+
+          bucket_key_enabled = server_side_encryption_configuration.value.bucket_key_enabled
+
+          dynamic "apply_server_side_encryption_by_default" {
+            for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
+
+            content {
+              sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
+              kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+            }
+          }
         }
       }
     }
@@ -67,15 +78,26 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     enabled = true
   }
   # making server side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      bucket_key_enabled = var.bucket_key_enabled
-      dynamic "apply_server_side_encryption_by_default" {
-        for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
+  dynamic "server_side_encryption_configuration" {
+    for_each = var.server_side_encryption_configuration == null ? [] : var.server_side_encryption_configuration
+
+    content {
+
+      dynamic "rule" {
+        for_each = try(server_side_encryption_configuration.value.rule, null) == null ? [] : [server_side_encryption_configuration.value.rule]
 
         content {
-          sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
-          kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+
+          bucket_key_enabled = server_side_encryption_configuration.value.bucket_key_enabled
+
+          dynamic "apply_server_side_encryption_by_default" {
+            for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
+
+            content {
+              sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
+              kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+            }
+          }
         }
       }
     }
