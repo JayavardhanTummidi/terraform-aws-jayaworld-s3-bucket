@@ -63,6 +63,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     enabled = true
   }
   # making server side encryption by default
+  /*
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -70,6 +71,27 @@ resource "aws_s3_bucket" "jaya-world-s3" {
         sse_algorithm     = "aws:kms"
       }
       bucket_key_enabled = "true"
+    }
+  }*/
+  dynamic "server_side_encryption_configuration" {
+    for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
+
+    content {
+      dynamic "rule" {
+        for_each = try(server_side_encryption_configuration.value.rule, null) == null ? [] : [server_side_encryption_configuration.value.rule]
+
+        content {
+          bucket_key_enabled = try(rule.value.bucket_key_enabled, null)
+          dynamic "apply_server_side_encryption_by_default" {
+            for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
+
+            content {
+              sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
+              kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+            }
+          }
+        }
+      }
     }
   }
 

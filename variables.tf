@@ -6,10 +6,12 @@ variable "log_bucket_name" {
   description = "please provide bucket name to create s3 log bucket"
   type        = string
 }
+
 variable "aws_kms_key_arn" {
   description = "The customer managed(CMK) to encrypt the bucket. Please create KMS Key if you haven't done already"
   type        = string
 }
+
 variable "bucket_name" {
   description = "please provide bucket name"
   type        = string
@@ -143,6 +145,12 @@ variable "replication_configuration" {
   type        = list(any)
   default     = null
   description = "specifies the replication rule for S3"
+}
+
+variable "sse_algorithm_type" {
+  type        = list(any)
+  default     = null
+  description = "specifies the server side encryption algorithm"
 }
 
 variable "tags" {
