@@ -23,7 +23,7 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
 
         content {
 
-          bucket_key_enabled = server_side_encryption_configuration.value.bucket_key_enabled
+          bucket_key_enabled = try(rule.value.bucket_key_enabled, null)
 
           dynamic "apply_server_side_encryption_by_default" {
             for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
@@ -88,7 +88,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
 
         content {
 
-          bucket_key_enabled = server_side_encryption_configuration.value.bucket_key_enabled
+          bucket_key_enabled = try(rule.value.bucket_key_enabled, null)
 
           dynamic "apply_server_side_encryption_by_default" {
             for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
