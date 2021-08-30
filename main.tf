@@ -195,13 +195,13 @@ resource "aws_s3_bucket" "jaya-world-s3" {
 */
 
   dynamic "replication_configuration" {
-    for_each = var.replication_configuration
+    for_each = var.replication_configuration == null ? [] : var.replication_configuration
 
     content {
       role = replication_configuration.value.role
 
       dynamic "rules" {
-        for_each = replication_configuration.value.rules
+        for_each = try(replication_configuration.value.rules, null) == null ? [] : [replication_configuration.value.rules]
 
         content {
           delete_marker_replication_status = try(rules.value.delete_marker_replication_status, null)
@@ -211,7 +211,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
           prefix                           = try(rules.value.prefix, null)
 
           dynamic "destination" {
-            for_each = try(rules.value.destination, null)
+            for_each = try(rules.value.destination, null) == null ? [] : [rules.value.destination]
 
             content {
               bucket             = destination.value.bucket
@@ -220,7 +220,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
               account_id         = try(destination.value.account_id, null)
 
               dynamic "access_control_translation" {
-                for_each = try(rules.value.destination.access_control_translation, null)
+                for_each = try(rules.value.destination.access_control_translation, null) == null ? [] : [rules.value.destination.access_control_translation]
 
                 content {
                   owner = access_control_translation.value.owner
@@ -231,7 +231,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
           }
 
           dynamic "filter" {
-            for_each = try(rules.value.filter, null)
+            for_each = try(rules.value.filter, null) == null ? [] : [rules.value.filter]
 
             content {
               prefix = try(filter.value.prefix, null)
@@ -240,12 +240,12 @@ resource "aws_s3_bucket" "jaya-world-s3" {
           }
 
           dynamic "source_selection_criteria" {
-            for_each = try(rules.value.source_selection_criteria, null)
+            for_each = try(rules.value.source_selection_criteria, null) == null ? [] : [rules.value.source_selection_criteria]
 
             content {
 
               dynamic "sse_kms_encrypted_objects" {
-                for_each = try(rules.value.source_selection_criteria.sse_kms_encrypted_objects, null)
+                for_each = try(rules.value.source_selection_criteria.sse_kms_encrypted_objects, null) == null ? [] : [rules.value.source_selection_criteria.sse_kms_encrypted_objects]
 
                 content {
 
