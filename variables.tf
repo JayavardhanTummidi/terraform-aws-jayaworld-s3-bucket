@@ -152,6 +152,12 @@ variable "s3_replica_bucket_arn" {
   description = "The ARN of the S3 replica bucket (destination)"
 }
 
+variable "replication_configuration" {
+  type        = list(any)
+  default     = null
+  description = "specifies the replication rule for S3"
+}
+
 variable "replication_rules" {
   # type = list(object({
   #   id          = string

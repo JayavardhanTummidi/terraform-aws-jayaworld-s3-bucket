@@ -138,6 +138,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
 
   }
+  /*
   dynamic "replication_configuration" {
     for_each = var.s3_replication_enabled ? [1] : []
 
@@ -191,9 +192,8 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     }
   }
 }
+*/
 
-/*
-  # For replication configuration
   dynamic "replication_configuration" {
     for_each = var.replication_configuration
 
@@ -204,23 +204,23 @@ resource "aws_s3_bucket" "jaya-world-s3" {
         for_each = replication_configuration.value.rules
 
         content {
-          delete_marker_replication_status = lookup(rules.value, "delete_marker_replication_status", null)
-          priority                         = lookup(rules.value, "priority", null)
+          delete_marker_replication_status = try(rules.value.delete_marker_replication_status, null)
+          priority                         = try(rules.value.priority, null)
           status                           = rules.value.status
-          id                               = lookup(rules.value, "id", null)
-          prefix                           = lookup(rules.value, "prefix", null)
+          id                               = rules.value.id
+          prefix                           = try(rules.value.prefix, null)
 
           dynamic "destination" {
-            for_each = lookup(rules.value, "destination", null)
+            for_each = try(rules.value.destination, null)
 
             content {
               bucket             = destination.value.bucket
-              storage_class      = lookup(destination.value, "storage_class", null)
-              replica_kms_key_id = lookup(destination.value, "replica_kms_key_id", null)
-              account_id         = lookup(destination.value, "account_id", null)
+              storage_class      = try(destination.value.storage_class, "STANDARD")
+              replica_kms_key_id = try(destination.value.replica_kms_key_id, null)
+              account_id         = try(destination.value.account_id, null)
 
               dynamic "access_control_translation" {
-                for_each = lookup(destination.value, "access_control_translation", null)
+                for_each = try(rules.value.destination.access_control_translation, null)
 
                 content {
                   owner = access_control_translation.value.owner
@@ -231,25 +231,25 @@ resource "aws_s3_bucket" "jaya-world-s3" {
           }
 
           dynamic "filter" {
-            for_each = lookup(rules.value, "filter", null)
+            for_each = try(rules.value.filter, null)
 
             content {
-              prefix = lookup(filter.value, "prefix", null)
-              tags   = lookup(filter.value, "tags", null)
+              prefix = try(filter.value.prefix, null)
+              tags   = try(filter.value.tags, {})
             }
           }
 
           dynamic "source_selection_criteria" {
-            for_each = lookup(rules.value, "source_selection_criteria", null)
+            for_each = try(rules.value.source_selection_criteria, null)
 
             content {
 
               dynamic "sse_kms_encrypted_objects" {
-                for_each = lookup(source_selection_criteria.value, "sse_kms_encrypted_objects", null)
+                for_each = try(rules.value.source_selection_criteria.sse_kms_encrypted_objects, null)
 
                 content {
 
-                  enabled = lookup(sse_kms_encrypted_objects.value, "enabled", null)
+                  enabled = try(sse_kms_encrypted_objects.value.enabled, null)
 
                 }
 
@@ -261,7 +261,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       }
     }
   }
-}*/
+}
 
 # Manage public access settings for the S3 log bucket. 
 resource "aws_s3_bucket_public_access_block" "jaya-world-s3" {
