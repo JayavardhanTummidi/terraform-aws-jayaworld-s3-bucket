@@ -142,7 +142,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     for_each = var.s3_replication_enabled ? [1] : []
 
     content {
-      role = aws_iam_role.replication[0].arn
+      role = "arn:aws:iam::357222526060:role/jaya-world-s3"
 
       dynamic "rules" {
         for_each = var.replication_rules == null ? [] : var.replication_rules
