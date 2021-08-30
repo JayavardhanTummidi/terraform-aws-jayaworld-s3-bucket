@@ -15,11 +15,15 @@ resource "aws_s3_bucket" "jaya_world_log_bucket" {
   # making server side encryption by default
   server_side_encryption_configuration {
     rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = var.aws_kms_key_arn
-        sse_algorithm     = "aws:kms"
+      bucket_key_enabled = var.bucket_key_enabled
+      dynamic "apply_server_side_encryption_by_default" {
+        for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
+
+        content {
+          sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
+          kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
+        }
       }
-      bucket_key_enabled = "true"
     }
   }
 
@@ -63,37 +67,20 @@ resource "aws_s3_bucket" "jaya-world-s3" {
     enabled = true
   }
   # making server side encryption by default
-  /*
   server_side_encryption_configuration {
     rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = var.aws_kms_key_arn
-        sse_algorithm     = "aws:kms"
-      }
-      bucket_key_enabled = "true"
-    }
-  }*/
-  dynamic "server_side_encryption_configuration" {
-    for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
-
-    content {
-      dynamic "rule" {
-        for_each = try(server_side_encryption_configuration.value.rule, null) == null ? [] : [server_side_encryption_configuration.value.rule]
+      bucket_key_enabled = var.bucket_key_enabled
+      dynamic "apply_server_side_encryption_by_default" {
+        for_each = var.sse_algorithm_type == null ? [] : var.sse_algorithm_type
 
         content {
-          bucket_key_enabled = try(rule.value.bucket_key_enabled, null)
-          dynamic "apply_server_side_encryption_by_default" {
-            for_each = try(rule.value.apply_server_side_encryption_by_default, null) == null ? [] : [rule.value.apply_server_side_encryption_by_default]
-
-            content {
-              sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
-              kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
-            }
-          }
+          sse_algorithm     = apply_server_side_encryption_by_default.value.sse_algorithm
+          kms_master_key_id = try(apply_server_side_encryption_by_default.value.kms_master_key_id, null)
         }
       }
     }
   }
+
 
   # static website hosting
   dynamic "website" {
@@ -228,6 +215,33 @@ resource "aws_s3_bucket" "jaya-world-s3" {
       }
     }
   }
+  /* CORS Configuration */
+  dynamic "cors_rule" {
+    for_each = var.cors_inputs == null ? [] : var.cors_inputs
+
+    content {
+      allowed_headers = try(cors_rule.value.allowed_headers, null)
+      allowed_methods = cors_rule.value.allowed_methods # Can be GET, PUT, POST, DELETE or HEAD
+      allowed_origins = cors_rule.value.allowed_origins # Example, https://jaya-world.com
+      expose_headers  = try(cors_rule.value.expose_headers, null)
+      max_age_seconds = try(cors_rule.value.max_age_seconds, null)
+    }
+  }
+
+  /* grant configuration (it conflicts with ACL) */
+  dynamic "grant" {
+    for_each = var.grant_inputs == null ? [] : var.grant_inputs
+
+    content {
+      id          = try(grant.value.id, null)          # Canonical user id to grant for. Used only when type is CanonicalUser
+      type        = grant.value.type                   # Valid values are CanonicalUser and Group. AmazonCustomerByEmail is not supported
+      permissions = try(grant.value.permissions, null) # Valid values are READ, WRITE, READ_ACP, WRITE_ACP, FULL_CONTROL
+      uri         = try(grant.value.uri, null)         # Uri address to grant for. Used only when type is Group
+
+    }
+
+  }
+
 }
 
 # Manage public access settings for the S3 log bucket. 

@@ -5,11 +5,7 @@ variable "region" {
 variable "log_bucket_name" {
   description = "please provide bucket name to create s3 log bucket"
   type        = string
-}
-
-variable "aws_kms_key_arn" {
-  description = "The customer managed(CMK) to encrypt the bucket. Please create KMS Key if you haven't done already"
-  type        = string
+  default     = ""
 }
 
 variable "bucket_name" {
@@ -113,8 +109,8 @@ variable "lifecycle_rule_prefix" {
 
 variable "website" {
   description = "provide following optional inputs - 'index_document', 'error_document' and 'redirect_all_requests_to' to enable statis website"
-  type        = any
-  default     = {}
+  type        = list(any)
+  default     = []
 }
 
 variable "block_public_acls" {
@@ -149,10 +145,27 @@ variable "replication_configuration" {
 
 variable "sse_algorithm_type" {
   type        = list(any)
-  default     = null
-  description = "specifies the server side encryption algorithm"
+  default     = []
+  description = "specifies the server side encryption algorithm AES256 or aws:kms"
 }
 
+variable "bucket_key_enabled" {
+  description = "Whether or not to use Amazon S3 Bucket Keys for SSE-KMS"
+  type        = string
+  default     = null
+}
+
+variable "cors_inputs" {
+  description = "provide cors rules"
+  type        = list(any)
+  default     = []
+}
+
+variable "grant_inputs" {
+  description = "Provide grant inputs"
+  type        = list(any)
+  default     = []
+}
 variable "tags" {
   description = "please provide tags for S3 bucket"
   type        = map(string)
