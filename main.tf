@@ -165,10 +165,10 @@ resource "aws_s3_bucket" "jaya-world-s3" {
               account_id         = try(destination.value.account_id, null)
 
               dynamic "access_control_translation" {
-                for_each = try(rules.value.destination.access_control_translation, null) == null ? [] : [rules.value.destination.access_control_translation]
+                for_each = try(rules.value.destination.access_control_translation.owner, null) == null ? [] : [rules.value.destination.access_control_translation.owner]
 
                 content {
-                  owner = access_control_translation.value.owner
+                  owner = access_control_translation.value
                 }
 
               }
@@ -190,11 +190,11 @@ resource "aws_s3_bucket" "jaya-world-s3" {
             content {
 
               dynamic "sse_kms_encrypted_objects" {
-                for_each = try(rules.value.source_selection_criteria.sse_kms_encrypted_objects, null) == null ? [] : [rules.value.source_selection_criteria.sse_kms_encrypted_objects]
+                for_each = try(rules.value.source_selection_criteria.sse_kms_encrypted_objects.enabled, null) == null ? [] : [rules.value.source_selection_criteria.sse_kms_encrypted_objects.enabled]
 
                 content {
 
-                  enabled = try(sse_kms_encrypted_objects.value.enabled, null)
+                  enabled = source_selection_criteria.value
 
                 }
 
