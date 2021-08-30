@@ -43,7 +43,7 @@ module "jayaworld-s3-bucket" {
 
 }
 
-> **Example to Create S3 bucket with the SSE KMS with the bucket key enabled (Personally recommended to lower the KMS calls**
+> **Example to Create S3 bucket with the SSE KMS with the bucket key enabled (I highly recommend to lower the KMS calls)**
 
 module "jayaworld-s3-bucket" {
 
@@ -60,7 +60,7 @@ module "jayaworld-s3-bucket" {
       rule = {
 
         bucket_key_enabled = "true"
-        
+
         apply_server_side_encryption_by_default = {
 
           sse_algorithm = "aws:kms"
