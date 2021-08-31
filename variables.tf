@@ -11,6 +11,7 @@ variable "log_bucket_name" {
 variable "bucket_name" {
   description = "please provide bucket name"
   type        = string
+  default = ""
 }
 
 variable "acl" {
@@ -46,7 +47,7 @@ variable "log_bucket_force_destroy" {
 variable "acceleration_status" {
   description = "Transfer Acceleration takes advantage of the globally distributed edge locations in Amazon CloudFront. As the data arrives at an edge location, the data is routed to Amazon S3 over an optimized network path."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "request_payer" {
@@ -139,7 +140,7 @@ variable "restrict_public_buckets" {
 
 variable "replication_configuration" {
   type        = list(any)
-  default     = null
+  default     = []
   description = "specifies the replication rule for S3"
 }
 
