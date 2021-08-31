@@ -77,6 +77,7 @@ resource "aws_s3_bucket" "jaya-world-s3" {
   versioning {
     enabled = true
   }
+
   # making server side encryption by default
   dynamic "server_side_encryption_configuration" {
     for_each = var.server_side_encryption_configuration == null ? [] : var.server_side_encryption_configuration
