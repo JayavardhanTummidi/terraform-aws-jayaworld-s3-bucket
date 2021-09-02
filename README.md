@@ -77,7 +77,7 @@ module "jayaworld-s3-bucket" {
 
 }
 
-> **Example to Create S3 bucket with the statis website hosting**
+> **Example to Create S3 bucket with the static website hosting**
 
 module "jayaworld-s3-bucket" {
 
